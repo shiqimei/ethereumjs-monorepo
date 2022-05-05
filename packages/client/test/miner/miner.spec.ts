@@ -7,11 +7,11 @@ import { DefaultStateManager, StateManager } from '@ethereumjs/vm/dist/state'
 import { Account, Address, BN } from 'ethereumjs-util'
 import { Config } from '../../lib/config'
 import { FullEthereumService } from '../../lib/service'
-import { FullSynchronizer } from '../../lib/sync'
 import { Chain } from '../../lib/blockchain'
 import { Miner } from '../../lib/miner'
 import { Event } from '../../lib/types'
 import { wait } from '../integration/util'
+import type { FullSynchronizer } from '../../lib/sync'
 
 const A = {
   address: new Address(Buffer.from('0b90087d864e82a284dca15923f3776de6bb016f', 'hex')),
