@@ -1,6 +1,7 @@
 import { Block } from '@ethereumjs/block'
 import { Address } from 'ethereumjs-util'
 import EVM from './evm'
+import Message, { MessageWithTo } from './message'
 import { OpHandler } from './opcodes'
 import { AsyncDynamicGasHandler, SyncDynamicGasHandler } from './opcodes/gas'
 
@@ -91,6 +92,10 @@ export interface RunCallOpts {
    * If the call is a DELEGATECALL. Defaults to false.
    */
   delegatecall?: boolean
+  /**
+   * Optionally pass in an already-built message.
+   */
+  message?: Message
 }
 
 /**
@@ -153,6 +158,10 @@ export interface RunCodeOpts {
    * The initial program counter. Defaults to `0`
    */
   pc?: number
+  /**
+   * Optionally pass in an already-built message
+   */
+  message?: MessageWithTo
 }
 
 /**
