@@ -27,9 +27,8 @@ import { getOpcodesForHF, OpcodeList, OpHandler } from './opcodes'
 import { AsyncDynamicGasHandler, SyncDynamicGasHandler } from './opcodes/gas'
 import { CustomPrecompile, getActivePrecompiles, PrecompileFunc } from './precompiles'
 import { TransientStorage } from '../state'
-import { CustomOpcode, Log, RunCallOpts, RunCodeOpts } from './types'
+import { CustomOpcode, Log, RunCallOpts, RunCodeOpts, TxContext } from './types'
 import { VmState } from '../vmState'
-import TxContext from './txContext'
 
 const debug = createDebugLogger('vm:evm')
 const debugGas = createDebugLogger('vm:evm:gas')
@@ -825,11 +824,10 @@ export default class EVM extends AsyncEventEmitter {
   async runCall(opts: RunCallOpts): Promise<EVMResult> {
     const block = opts.block ?? Block.fromBlockData({}, { common: this._common })
     this._block = block
-
-    const txContext = new TxContext(
-      opts.gasPrice ?? BigInt(0),
-      opts.origin ?? opts.caller ?? Address.zero()
-    )
+    const txContext: TxContext = {
+      gasPrice: opts.gasPrice ?? BigInt(0),
+      origin: opts.origin ?? opts.caller ?? Address.zero(),
+    }
     this._tx = txContext
 
     const caller = opts.caller ?? Address.zero()
@@ -869,10 +867,10 @@ export default class EVM extends AsyncEventEmitter {
     this._block = block
 
     // Backwards compatibility
-    const txContext = new TxContext(
-      opts.gasPrice ?? BigInt(0),
-      opts.origin ?? opts.caller ?? Address.zero()
-    )
+    const txContext: TxContext = {
+      gasPrice: opts.gasPrice ?? BigInt(0),
+      origin: opts.origin ?? opts.caller ?? Address.zero(),
+    }
     this._tx = txContext
 
     const message = new Message({
